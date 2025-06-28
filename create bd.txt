@@ -1,0 +1,137 @@
+CREATE DATABASE IF NOT EXISTS EcoLimpioExpress;
+USE EcoLimpioExpress;
+
+-- Tabla Cliente
+CREATE TABLE Cliente (
+    IdCliente INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Apellidos VARCHAR(100),
+    NumCelular VARCHAR(20),
+    Ci VARCHAR(20),
+    FechaRegistro DATE
+);
+
+-- Tabla Vehiculo
+CREATE TABLE Vehiculo (
+    IdVehiculo INT AUTO_INCREMENT PRIMARY KEY,
+    IdCliente INT,
+    Marca VARCHAR(50),
+    Modelo VARCHAR(50),
+    Placa VARCHAR(20) UNIQUE,
+    FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente)
+);
+
+-- Tabla Sucursal
+CREATE TABLE Sucursal (
+    IdSucursal INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Direccion TEXT
+);
+
+-- Tabla Empleado
+CREATE TABLE Empleado (
+    IdEmpleado INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Apellidos VARCHAR(100),
+    NumCelular VARCHAR(20),
+    Cargo ENUM('Operario', 'Asesor Comercial'),
+    FechaRegistro DATE,
+    IdSucursal INT,
+    FOREIGN KEY (IdSucursal) REFERENCES Sucursal(IdSucursal)
+);
+
+-- Tabla Reserva
+CREATE TABLE Reserva (
+    IdReserva INT AUTO_INCREMENT PRIMARY KEY,
+    IdCliente INT,
+    IdVehiculo INT,
+    IdSucursal INT,
+    FechaHora DATETIME,
+    TipoReserva ENUM('En línea', 'Presencial'),
+    ADomicilio BOOLEAN,
+    DireccionServicio TEXT,
+    Estado ENUM('Confirmada', 'Pendiente', 'Cancelada'),
+    FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente),
+    FOREIGN KEY (IdVehiculo) REFERENCES Vehiculo(IdVehiculo),
+    FOREIGN KEY (IdSucursal) REFERENCES Sucursal(IdSucursal)
+);
+
+-- Tabla Servicio
+CREATE TABLE Servicio (
+    IdServicio INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Descripcion TEXT,
+    Precio DECIMAL(10,2)
+);
+
+-- Tabla DetalleServicio (servicio prestado en una reserva)
+CREATE TABLE DetalleServicio (
+    IdDetalleServicio INT AUTO_INCREMENT PRIMARY KEY,
+    IdReserva INT,
+    IdServicio INT,
+    IdOperario INT,
+    Estado ENUM('Completado', 'Cancelado', 'Reprogramado'),
+    Observaciones TEXT,
+    MontoTotal DECIMAL(10,2),
+    Descripcion TEXT,
+    FOREIGN KEY (IdReserva) REFERENCES Reserva(IdReserva),
+    FOREIGN KEY (IdServicio) REFERENCES Servicio(IdServicio),
+    FOREIGN KEY (IdOperario) REFERENCES Empleado(IdEmpleado)
+);
+
+-- Tabla Pago
+CREATE TABLE Pago (
+    IdPago INT AUTO_INCREMENT PRIMARY KEY,
+    IdDetalleServicio INT,
+    TipoPago ENUM('Efectivo', 'QR', 'Tarjeta'),
+    MontoTotal DECIMAL(10,2),
+    Fecha DATE,
+    Estado ENUM('Pagado', 'Pendiente'),
+    FOREIGN KEY (IdDetalleServicio) REFERENCES DetalleServicio(IdDetalleServicio)
+);
+
+-- Tabla Paquete
+CREATE TABLE Paquete (
+    IdPaquete INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Precio DECIMAL(10,2),
+    Descripcion TEXT
+);
+
+-- Tabla DetallePaquete (N:M entre Paquete y Servicio)
+CREATE TABLE DetallePaquete (
+    IdPaquete INT,
+    IdServicio INT,
+    Cantidad INT DEFAULT 1,
+    PRIMARY KEY (IdPaquete, IdServicio),
+    FOREIGN KEY (IdPaquete) REFERENCES Paquete(IdPaquete),
+    FOREIGN KEY (IdServicio) REFERENCES Servicio(IdServicio)
+);
+
+-- Tabla Comision (relación 1:1 con Paquete)
+CREATE TABLE Comision (
+    IdComision INT AUTO_INCREMENT PRIMARY KEY,
+    IdPaquete INT UNIQUE,
+    Fecha DATE,
+    Monto DECIMAL(10,2),
+    FOREIGN KEY (IdPaquete) REFERENCES Paquete(IdPaquete)
+);
+
+-- Tabla intermedia Empleado_Comision (relación M:N entre Empleado y Comisión)
+CREATE TABLE Empleado_Comision (
+    IdEmpleado INT,
+    IdComision INT,
+    PRIMARY KEY (IdEmpleado, IdComision),
+    FOREIGN KEY (IdEmpleado) REFERENCES Empleado(IdEmpleado),
+    FOREIGN KEY (IdComision) REFERENCES Comision(IdComision)
+);
+
+-- Tabla Sugerencia
+CREATE TABLE Sugerencia (
+    IdSugerencia INT AUTO_INCREMENT PRIMARY KEY,
+    IdCliente INT,
+    Fecha DATE,
+    Tipo ENUM('Queja', 'Sugerencia', 'Observación'),
+    Descripcion TEXT,
+    FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente)
+);
