@@ -4,7 +4,7 @@ const path = require('path');
 const engine = require('ejs-mate');
 
 
-const camionRouter = require('./routes/camionRouter'); // Ajusta la ruta si es distinta
+const servicioRoute = require('./routes/servicioRoute'); // Ajusta la ruta si es distinta
 
 
 app.engine('ejs', engine);
@@ -18,7 +18,7 @@ app.use(express.json());
 // Montar las rutas
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 
-app.use('/', camionRouter); // MUY IMPORTANTE
+app.use('/', servicioRoute); // MUY IMPORTANTE
 
 
 // Puerto

@@ -1,0 +1,58 @@
+<% layout('index') %>
+<h1>Reporte de Servicios Realizados</h1>
+
+<form method="GET" action="/reporte/ServicioRealizadosPorEstado" class="mb-4">
+    <div>
+        <label for="fechaInicio">Fecha inicio:</label>
+        <input type="date" name="fechaInicio" required>
+    </div>
+
+    <div>
+        <label for="fechaFinal">Fecha final:</label>
+        <input type="date" name="fechaFinal" required>
+    </div>
+
+    <div>
+        <label for="sucursalNombre">Sucursal:</label>
+        <input type="text" name="sucursalNombre" placeholder="Ej: Central o % para todas" required>
+    </div>
+
+    <div>
+        <label for="estadoServicio">Estado del servicio:</label>
+        <select name="estadoServicio" required>
+            <option value="Completado">Completado</option>
+            <option value="Cancelado">Cancelado</option>
+            <option value="Reprogramado">Reprogramado</option>
+            <option value="%">Todos</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Ver reporte</button>
+</form>
+<table border=1 class="table table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>Nombre del Servicio</th>
+            <th>Precio</th>
+            <th>Estado Servicio</th>
+            <th>Fecha y Hora</th>
+            <th>Sucursal</th>
+            <th>Cliente</th>
+            <th>Placa</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% servicios.forEach(s => { %>
+        <tr>
+            <td><%= s.Servicio %></td>
+            <td><%= s.Precio %></td>
+            <td><%= s.EstadoServicio %></td>
+            <td><%= s.FechaHora %></td>
+            <td><%= s.Sucursal %></td>
+            <td><%= s.Cliente %></td>
+            <td><%= s.Placa %></td>
+        </tr>
+        <% }) %>
+    </tbody>
+</table>
+
