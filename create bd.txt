@@ -28,6 +28,14 @@ CREATE TABLE Sucursal (
     Direccion TEXT
 );
 
+CREATE TABLE Sucursal_Paquete (
+    IdSucursal INT,
+    IdPaquete INT,
+    PRIMARY KEY (IdSucursal, IdPaquete),
+    FOREIGN KEY (IdSucursal) REFERENCES Sucursal(IdSucursal),
+    FOREIGN KEY (IdPaquete) REFERENCES Paquete(IdPaquete)
+);
+
 -- Tabla Empleado
 CREATE TABLE Empleado (
     IdEmpleado INT AUTO_INCREMENT PRIMARY KEY,
@@ -108,7 +116,7 @@ CREATE TABLE DetallePaquete (
     FOREIGN KEY (IdServicio) REFERENCES Servicio(IdServicio)
 );
 
--- Tabla Comision (relación 1:1 con Paquete)
+-- Tabla Comision
 CREATE TABLE Comision (
     IdComision INT AUTO_INCREMENT PRIMARY KEY,
     IdPaquete INT UNIQUE,
@@ -117,7 +125,7 @@ CREATE TABLE Comision (
     FOREIGN KEY (IdPaquete) REFERENCES Paquete(IdPaquete)
 );
 
--- Tabla intermedia Empleado_Comision (relación M:N entre Empleado y Comisión)
+-- Tabla Empleado_Comision (relación M:N entre Empleado y Comisión)
 CREATE TABLE Empleado_Comision (
     IdEmpleado INT,
     IdComision INT,

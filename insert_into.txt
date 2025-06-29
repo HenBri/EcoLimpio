@@ -21,6 +21,15 @@ INSERT INTO Sucursal (Nombre, Direccion) VALUES
 ('Sucursal Este', 'Calle Las Palmas 101'),
 ('Sucursal Oeste', 'Av. Los Pinos 202');
 
+INSERT INTO Sucursal_Paquete (IdSucursal, IdPaquete) VALUES
+(1, 1),  
+(1, 2),  
+(2, 1),  
+(3, 3),  
+(4, 4),  
+(5, 5);  
+
+
 INSERT INTO Empleado (Nombre, Apellidos, NumCelular, Cargo, FechaRegistro, IdSucursal) VALUES
 ('Pedro', 'Soto', '76111111', 'Operario', '2024-01-01', 1),
 ('Lucía', 'Vargas', '76222222', 'Asesor Comercial', '2024-01-10', 2),
