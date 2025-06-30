@@ -47,3 +47,30 @@ exports.reporteIngresosMensuales= (req, res) => {
         res.render('servicios/reporteIngresosMensuales', { servicios: datos });
     });
 };
+
+exports.reporteAsesor = (req, res) => {
+    const { textoFiltro } = req.query;
+
+    servicioModel.obtenerReporteAsesor(textoFiltro, (err, datos) => {
+        if (err) {
+            console.error('Error al obtener el reporte de asesor:', err);
+            return res.status(500).send('Error en el servidor');
+        }
+        res.render('servicios/reporteAsesor', { asesores: datos });
+        
+    });
+};
+
+exports.reporteVehiculos = (req, res) => {
+    const { textoFiltro } = req.query;
+
+    servicioModel.obtenerReporteVehiculos(textoFiltro, (err, datos) => {
+        if (err) {
+            console.error('Error al obtener el reporte de vehículos:', err);
+            return res.status(500).send('Error en el servidor');
+        }
+
+        res.render('servicios/reporteVehiculos', { vehiculos: datos });
+    });
+};
+

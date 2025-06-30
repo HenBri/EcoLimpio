@@ -24,3 +24,19 @@ exports.obtenerIngresosMensuales= (fechaInicio, fechaFinal, sucursalFiltro, tipo
         callback(null, resultado[0]);
     });
 };
+
+exports.obtenerReporteAsesor = (textoFiltro, callback) => {
+    const consulta = 'CALL ReporteAsesor(?);';
+    db.query(consulta, [textoFiltro], (err, resultado) => {
+        if (err) return callback(err);
+        callback(null, resultado[0]); 
+    });
+};
+
+exports.obtenerReporteVehiculos = (textoFiltro, callback) => {
+    const consulta = 'CALL ReporteVehiculos(?);';
+    db.query(consulta, [textoFiltro], (err, resultado) => {
+        if (err) return callback(err);
+        callback(null, resultado[0]);
+    });
+};
