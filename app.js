@@ -1,28 +1,24 @@
 const express = require('express');
-const app = express();
 const path = require('path');
-const engine = require('ejs-mate');
+const ejsMate = require('ejs-mate');
+const servicioRoute = require('./routes/servicioRoute');
 
+const app = express();
 
-const servicioRoute = require('./routes/servicioRoute'); // Ajusta la ruta si es distinta
-
-
-app.engine('ejs', engine);
+// Set view engine
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
+// Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Montar las rutas
-app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
+// Routes
+app.use('/', servicioRoute);
 
-app.use('/', servicioRoute); // MUY IMPORTANTE
-
-
-// Puerto
+// Start server
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

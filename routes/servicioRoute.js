@@ -2,12 +2,10 @@ const express = require('express');
 const router = express.Router();
 const servicioControlador = require('../controllers/servicioControlador');
 
-
-router.get('/reporte/ServicioRealizadosPorEstado', servicioControlador.reporteServicioRealizadosPorEstado);
-router.get('/reporte/ServicioRealizadosPorEstado', servicioControlador.reportePagosReservas);
-router.get('/reporte/ServicioRealizadosPorEstado', servicioControlador.reporteIngresosMensuales);
-router.get('/reporte/ServicioRealizadosPorEstado', servicioControlador.obtenerReporteAsesor);
-router.get('/reporte/ServicioRealizadosPorEstado', servicioControlador.obtenerReporteVehiculos);
-
+router.get('/reporte/serviciosRealizadosPorEstado', servicioControlador.reporteServicioRealizadosPorEstado);
+router.get('/reporte/pagosReservas', servicioControlador.reportePagosReservas);
+router.get('/reporte/ingresosMensuales', servicioControlador.reporteIngresosMensuales);
+router.get('/reporte/asesor', servicioControlador.reporteAsesor);
+router.get('/reporte/vehiculos', servicioControlador.reporteVehiculos);
 
 module.exports = router;

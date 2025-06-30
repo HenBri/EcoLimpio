@@ -10,7 +10,7 @@ connection.connect((error) => {
     if (error) {
         console.log("No se logró conectar:", error);
     } else {
-        console.log("Se logró conectar:", error);
+        console.log("Se logró conectar a la base de datos");
        
     }
 });
